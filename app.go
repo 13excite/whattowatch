@@ -32,14 +32,15 @@ func (a *App) Initialize() {
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {
+		fmt.Println("PPPPP")
 		log.Fatal(err)
 	}
 
-	/*err = a.DB.Ping()
+	err = a.DB.Ping()
 	if err != nil {
 		fmt.Println("ZZZZZ")
 		log.Fatal(err)
-	} */
+	}
 
 	a.Router = mux.NewRouter()
 	a.initializeRoutes()
@@ -53,19 +54,27 @@ func (a *App) Run(addr string) {
 }
 
 func (a *App) initializeRoutes() {
-	a.Router.HandleFunc("/status", a.getStatus).Methods("GET")
+	a.Router.HandleFunc("/random", a.getRandomFilm).Methods("GET")
 }
 
-func (a *App) getStatus( w http.ResponseWriter, r *http.Request) {
+func (a *App) getRandomFilm( w http.ResponseWriter, r *http.Request) {
 	minMaxData := MinMaxIds{}
+	film := FilmData{}
 
-	//result := make([]backup,0)
 	defer r.Body.Close()
 
-	result, err := minMaxData.getMinMaxIds(a.DB)
+	minMaxId, err := minMaxData.getMinMaxIds(a.DB)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 	}
+
+	randomNum := RandomRange(minMaxId.Min, minMaxId.Max)
+	result, err := film.getRandomFilm(a.DB, randomNum)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+
 	respondWithJSON(w, http.StatusOK, result)
 }
 

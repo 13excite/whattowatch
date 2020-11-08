@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"database/sql"
-	"github.com/lib/pq"
+	"fmt"
 	"log"
+	"github.com/lib/pq"
 )
 
 type FilmData struct {
@@ -22,26 +23,7 @@ type MinMaxIds struct {
 	Max int
 }
 
-func (f *FilmData) insertDataToDB(db *sql.DB) error {
-	ctx := context.Background()
-	err := db.PingContext(ctx)
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-	insertQuery := "INSERT INTO films (title, genre, poster_link, rating_kp, rating_imdb, country, linktokp) VALUES($1, $2, $3, $4, $5, $6, $7)"
-
-	_, err = db.ExecContext(ctx, insertQuery, f.Title, f.Genre, f.PosterLink,
-		pq.Array(f.RatingKp), pq.Array(f.RatingImdb), pq.Array(f.Country), f.LinkToKP)
-
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-	return nil
-}
-
-func (ids *MinMaxIds) getMinMaxIds( db *sql.DB) (*MinMaxIds, error) {
+func (ids *MinMaxIds) getMinMaxIds(db *sql.DB) (*MinMaxIds, error) {
 	ctx := context.Background()
 	err := db.PingContext(ctx)
 	if err != nil {
@@ -67,4 +49,28 @@ func (ids *MinMaxIds) getMinMaxIds( db *sql.DB) (*MinMaxIds, error) {
 	}
 	return minMaxArr[1], nil
 
+}
+
+func (f *FilmData) getRandomFilm(db *sql.DB, randomFilmId int) (*FilmData, error) {
+	ctx := context.Background()
+	err := db.PingContext(ctx)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	statement := fmt.Sprintf("SELECT title,genre,poster_link,rating_kp,rating_imdb,country,linktokp  FROM films WHERE film_id=%d", randomFilmId)
+	rows, err := db.QueryContext(ctx, statement)
+
+	filmsArr := make([]*FilmData, 1, 1)
+	defer rows.Close()
+
+	for rows.Next() {
+		err := rows.Scan(&f.Title, &f.Genre, &f.PosterLink,
+			pq.Array(&f.RatingKp), pq.Array(&f.RatingImdb), pq.Array(&f.Country), &f.LinkToKP)
+		if err != nil {
+			return nil, err
+		}
+		filmsArr = append(filmsArr, f)
+	}
+	return filmsArr[1], nil
 }
