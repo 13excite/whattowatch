@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"github.com/lib/pq"
+	"log"
 )
 
 type FilmData struct {

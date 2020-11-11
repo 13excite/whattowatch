@@ -5,5 +5,5 @@ import (
 )
 
 func RandomRange(min int, max int) int {
-	return rand.Intn(max - min + 1) + min
+	return rand.Intn(max-min+1) + min
 }

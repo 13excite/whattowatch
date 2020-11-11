@@ -12,7 +12,7 @@ import (
 )
 
 type App struct {
-	DB *sql.DB
+	DB     *sql.DB
 	Router *mux.Router
 }
 
@@ -57,7 +57,7 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/random", a.getRandomFilm).Methods("GET")
 }
 
-func (a *App) getRandomFilm( w http.ResponseWriter, r *http.Request) {
+func (a *App) getRandomFilm(w http.ResponseWriter, r *http.Request) {
 	minMaxData := MinMaxIds{}
 	film := FilmData{}
 
@@ -74,7 +74,6 @@ func (a *App) getRandomFilm( w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 	}
 
-
 	respondWithJSON(w, http.StatusOK, result)
 }
 
@@ -89,6 +88,3 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.WriteHeader(code)
 	w.Write(response)
 }
-
-
-
