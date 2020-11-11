@@ -1,60 +1,73 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div id="app" class="center">
+      <h1 class="title">{{ film.Title }}</h1>
+      <h2 class="genre">{{ film.Genre }}</h2>
+    <h2 class="rating">KP: {{ film.RatingKp[0] }} {{ film.RatingImdb[0] }}</h2>
+      <div class="poster">
+        <img style="max-width: 500px; height: auto;" :src=film.PosterLink>
+      </div>
+      <div class="country">
+        <h2 v-for="c in film.Country ">Страна: {{ c }} </h2>
+      </div>
+    <div class="kp_link">
+      <a target="_blank" rel="noopener noreferrer" :href=film.LinkToKP>
+        <button class="btn btn-warning btn-xs btn-lg">Go to Kinopoisk</button>
+      </a>
+
+    </div>
+    <div class="next">
+      <button class="btn btn-xs btn-warning btn-lg" @click="update">Next</button>
+    </div>
+
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import axios from 'axios'
+
+  export default {
+    name: 'app',
+    data () {
+      return {
+        film: {}
+      }
+    },
+    created() {
+      axios.get("/random").then(r => {
+        this.film = r.data
+      })
+    },
+    methods: {
+      update() {
+        axios.get("/random").then(r => {
+          this.film = r.data
+        })
+      }
     }
   }
-}
 </script>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+<style>
+html body {
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,0.5606617647058824) 0%, rgba(9,121,112,1) 40%, rgba(0,212,255,1) 100%);
+
+}
+.center {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+.country>h2 { display: inline }
+
+.next {
+    margin-top: 40px;
+}
+div.kp_link, .country {
+    margin-top: 20px;
 }
 
-h1, h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 
-a {
-  color: #42b983;
-}
+
 </style>

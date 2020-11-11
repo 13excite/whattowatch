@@ -78,8 +78,12 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    proxy: {
+      "/random": "http://127.0.0.1:5001/"
+    }
   },
+
   performance: {
     hints: false
   },
