@@ -29,6 +29,8 @@ func Default() *Config {
 			Port:           5432,
 			MaxConnections: 20,
 			LogQueries:     false,
+			Retries: 5,
+			SleepBetweenRetries: "7s",
 		},
 	}
 }

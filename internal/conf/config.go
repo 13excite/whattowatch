@@ -21,4 +21,6 @@ type Database struct {
 	Port           int    `yaml:"port"`
 	MaxConnections int    `yaml:"max_connections"`
 	LogQueries     bool   `yaml:"log_queries"`
+	Retries			int `yaml:"retries"`
+	SleepBetweenRetries string `yaml:"sleep_between_retries"`
 }
