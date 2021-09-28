@@ -20,7 +20,7 @@ func (c *Client) GetRandomFilm(ctx context.Context, randomFilmId int) (*store.Fi
 	return film, nil
 }
 
-func (c *Client) getMinMaxIds(ctx context.Context) (*store.MinMaxIds, error) {
+func (c *Client) GetMinMaxIds(ctx context.Context) (*store.MinMaxIds, error) {
 	minMaxId := new(store.MinMaxIds)
 
 	statement := "select min(film_id), max(film_id) from films"
