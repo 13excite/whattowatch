@@ -47,8 +47,6 @@ func New(config *conf.Config, grStore GRStore) (*Server, error) {
 
 // ListenAndServe will listen for requests
 func (s *Server) ListenAndServe(config *conf.Config) error {
-	s.router.NewRoute()
-	s.router.HandleFunc("/random", s.GetRandomFilm).Methods("GET")
 
 	s.server = &http.Server{
 		Addr:    net.JoinHostPort(config.ServerHost, config.ServerPort),
