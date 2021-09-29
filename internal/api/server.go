@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
@@ -56,22 +57,22 @@ func (s *Server) ListenAndServe(config *conf.Config) error {
 	s.logger.Infow(s.server.Addr)
 
 	// Listen
-	/*
+
 		listener, err := net.Listen("tcp", s.server.Addr)
 		if err != nil {
 			fmt.Errorf("Could not listen on %s: %v", s.server.Addr, err)
 			return fmt.Errorf("Could not listen on %s: %v", s.server.Addr, err)
 		}
 
-		/*
+
 		go func() {
 			if err = s.server.Serve(listener); err != nil {
 				s.logger.Fatalw("API Listen error", "error", err, "address", s.server.Addr)
 			}
-		}() */
+		}()
 	s.logger.Infow("API Listening", "address", s.server.Addr)
 
-	s.server.ListenAndServe()
+	// s.server.ListenAndServe()
 
 	return nil
 
