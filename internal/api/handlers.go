@@ -23,8 +23,8 @@ func (s *Server) GetRandomFilm(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err == store.ErrNotFound {
 			RenderErrResourceNotFound(w, "film")
-		} else if serr, ok := err.(*store.Error); ok {
-			RenderErrInvalidRequest(w, serr.ErrorForOp(store.ErrorOpGet))
+		} else if ser, ok := err.(*store.Error); ok {
+			RenderErrInvalidRequest(w, ser.ErrorForOp(store.ErrorOpGet))
 		} else {
 			errID := RenderErrInternalWithID(w, nil)
 			s.logger.Errorw("GetRandomFilm error", "error", err, "error_id", errID)
