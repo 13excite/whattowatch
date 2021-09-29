@@ -49,7 +49,7 @@ func New(config *conf.Config) (*Client, error) {
 	} else {
 		return nil, fmt.Errorf("No hostname specified")
 	}
-	if port := string(config.Database.Port); port != "" {
+	if port := strconv.Itoa(config.Database.Port); port != "" {
 		connStr.WriteString(fmt.Sprintf("port=%s ", port))
 	}
 
