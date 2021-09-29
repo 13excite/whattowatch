@@ -9,29 +9,31 @@ import (
 
 const DefaultConfigPath = "/etc/kp_config.yaml"
 
-// Default returns config's object with default values
-func Default() *Config {
-	return &Config{
-		LogLevel:                "info",
-		LogEncoding:             "console",
-		LoggerColor:             true,
-		LoggerDisableStacktrace: true,
-		LoggerDevMode:           true,
-		LoggerDisableCaller:     false,
-		LoggerDisabledHttp:      []string{"/version"},
-		ServerHost:              "127.0.0.1",
-		ServerPort:              "8081",
-		Database: Database{
-			Password:       "postgres",
-			Username:       "postgres",
-			Hostname:       "localhost",
-			Database:       "test",
-			Port:           5432,
-			MaxConnections: 20,
-			LogQueries:     false,
-			Retries: 5,
-			SleepBetweenRetries: "7s",
-		},
+// C is the global configuration
+var C = Config{}
+
+// Defaults returns config's object with default values
+func (conf *Config) Defaults() {
+	conf.LogLevel = "info"
+	conf.LogEncoding = "console"
+	conf.LoggerColor = true
+	conf.LoggerDisableStacktrace = true
+	conf.LoggerDevMode = true
+	conf.LoggerDisableCaller = false
+	conf.LoggerDisabledHttp = []string{"/version"}
+	conf.ServerHost = "127.0.0.1"
+	conf.ServerPort = "8081"
+	conf.PidFile = ""
+	conf.Database = Database{
+		Password:            "postgres",
+		Username:            "postgres",
+		Hostname:            "localhost",
+		Database:            "test",
+		Port:                5432,
+		MaxConnections:      20,
+		LogQueries:          false,
+		Retries:             5,
+		SleepBetweenRetries: "7s",
 	}
 }
 
