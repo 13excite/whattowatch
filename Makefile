@@ -4,10 +4,10 @@ GOPATH ?= ${HOME}/go
 PACKAGENAME := $(shell go list -m -f '{{.Path}}')
 
 .PHONY: default
-default: ${EXECUTABLE}
+default: build
 
-.PHONY: ${EXECUTABLE}
-${EXECUTABLE}:
+.PHONY: build
+build:
 	# Compiling...
 	go build -ldflags "-X ${PACKAGENAME}/internal/conf.Executable=${EXECUTABLE} -X ${PACKAGENAME}/internal/conf.GitVersion=${GITVERSION}" -o ${EXECUTABLE}
 
