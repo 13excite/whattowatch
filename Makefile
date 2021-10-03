@@ -21,6 +21,10 @@ deps:
 lint:
 	docker run --rm -v ${PWD}:/app -w /app golangci/golangci-lint:v1.27.0 golangci-lint run -v --timeout 5m
 
+.PHONY: docker
+docker:
+	docker build -t ${EXECUTABLE}  ./
+
 .PHONY: hadolint
 hadolint:
 	docker run -it --rm -v ${PWD}/Dockerfile:/Dockerfile hadolint/hadolint:latest hadolint --ignore DL3018 Dockerfile
