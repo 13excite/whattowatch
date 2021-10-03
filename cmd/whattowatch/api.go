@@ -18,7 +18,14 @@ var (
 		Use:   "api",
 		Short: "Start API",
 		Long:  `Start API`,
-		Run: func(cmd *cli.Command, args []string) { // Initialize the databse
+		Run: func(cmd *cli.Command, args []string) { // Initialize the database
+			conf.C.Defaults()
+			if &configFile != nil && configFile != "" {
+				conf.C.ReadConfigFile(configFile)
+			}
+			conf.InitLogger(&conf.C)
+
+			logger = zap.S().With("package", "cmd")
 
 			// Database
 			pg, err := postgres.New(&conf.C)

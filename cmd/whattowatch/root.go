@@ -13,10 +13,9 @@ import (
 )
 
 var (
-
-	// Config and global logger
-	pidFile string
-	logger  *zap.SugaredLogger
+	configFile string
+	pidFile    string
+	logger     *zap.SugaredLogger
 
 	// The Root Cli Handler
 	rootCmd = &cli.Command{
@@ -47,27 +46,15 @@ var (
 	}
 )
 
+func init() {
+	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", "", "config file")
+}
+
 // Execute starts the program
 func Execute() {
-
-	// Load configuration
-	conf.C.Defaults()
-	configFile := rootCmd.PersistentFlags().StringP("config", "c", "", "config file")
-	if configFile != nil && *configFile != "" {
-		conf.C.ReadConfigFile(*configFile)
-		fmt.Println("AAAAA")
-	}
-	conf.C.ReadConfigFile("./config.yaml")
-	fmt.Println(rootCmd.PersistentFlags())
-	fmt.Println(apiCmd.PersistentFlags().FlagUsages())
-	fmt.Println(*configFile)
-	fmt.Println("BBBBB")
-	conf.InitLogger(&conf.C)
-
-	logger = zap.S().With("package", "cmd")
-
 	// Run the program
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
+
 }
