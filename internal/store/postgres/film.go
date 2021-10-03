@@ -11,7 +11,7 @@ import (
 func (c *Client) GetRandomFilm(ctx context.Context, randomFilmId int) (*store.FilmData, error) {
 	film := new(store.FilmData)
 
-	statement := fmt.Sprintf("SELECT title,genre,poster_link,rating_kp,rating_imdb,country,linktokp  " +
+	statement := fmt.Sprintf("SELECT title,genre,poster_link,rating_kp,rating_imdb,country,linktokp  "+
 		"FROM films WHERE film_id=%d", randomFilmId)
 	rows, err := c.db.QueryContext(ctx, statement)
 	if err == sql.ErrNoRows {

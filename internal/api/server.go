@@ -56,18 +56,17 @@ func (s *Server) ListenAndServe(config *conf.Config) error {
 
 	// Listen
 
-		listener, err := net.Listen("tcp", s.server.Addr)
-		if err != nil {
-			fmt.Errorf("Could not listen on %s: %v", s.server.Addr, err)
-			return fmt.Errorf("Could not listen on %s: %v", s.server.Addr, err)
+	listener, err := net.Listen("tcp", s.server.Addr)
+	if err != nil {
+		fmt.Errorf("Could not listen on %s: %v", s.server.Addr, err)
+		return fmt.Errorf("Could not listen on %s: %v", s.server.Addr, err)
+	}
+
+	go func() {
+		if err = s.server.Serve(listener); err != nil {
+			s.logger.Fatalw("API Listen error", "error", err, "address", s.server.Addr)
 		}
-
-
-		go func() {
-			if err = s.server.Serve(listener); err != nil {
-				s.logger.Fatalw("API Listen error", "error", err, "address", s.server.Addr)
-			}
-		}()
+	}()
 	s.logger.Infow("API Listening", "address", s.server.Addr)
 
 	// s.server.ListenAndServe()
