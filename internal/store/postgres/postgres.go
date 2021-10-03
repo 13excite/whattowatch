@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	// Import Database Migrate Postgres suppose
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/stdlib"
@@ -140,38 +139,4 @@ func wrapError(err error) error {
 		}
 	}
 	return err
-}
-
-type field struct {
-	name   string
-	insert string
-	update string
-	arg    interface{}
-}
-
-// Builds the values needed to compose an upsert statement
-func composeUpsert(fields []field) (string, string, string, []interface{}) {
-
-	names := make([]string, 0)
-	inserts := make([]string, 0)
-	updates := make([]string, 0)
-	args := make([]interface{}, 0)
-
-	for _, field := range fields {
-		index := "$#"
-		if field.arg != nil {
-			args = append(args, field.arg)
-			index = "$" + strconv.Itoa(len(args))
-		}
-		if field.insert != "" {
-			names = append(names, field.name)
-			inserts = append(inserts, strings.ReplaceAll(field.insert, "$#", index))
-		}
-		if field.update != "" {
-			updates = append(updates, field.name+" = "+strings.ReplaceAll(field.update, "$#", index))
-		}
-	}
-
-	return strings.Join(names, ","), strings.Join(inserts, ","), strings.Join(updates, ","), args
-
 }
