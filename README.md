@@ -4,7 +4,7 @@
 ```
 # run application from cli
 make build
-./whatswatchcmd api --config ./config.yaml
+./whattowatchcmd api --config ./config.yaml
 
 # check response
 curl 127.0.0.1:8081/random 2>/dev/null|jq .

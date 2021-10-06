@@ -20,12 +20,12 @@ RUN make build
 
 WORKDIR /dist
 
-RUN cp /build/whatswatchcmd .
+RUN cp /build/whattowatchcmd .
 
 # Build a small image
 FROM scratch
 
 COPY --from=builder /dist/ /
 
-CMD ["/whatswatchcmd", "api"]
+CMD ["/whattowatchcmd", "api"]
 

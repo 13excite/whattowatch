@@ -1,5 +1,5 @@
 .PHONY: default deps build lint docker hadolint fmt
-EXECUTABLE := whatswatchcmd
+EXECUTABLE := whattowatchcmd
 GITVERSION := $(shell git describe --dirty --always --tags --long)
 GOPATH ?= ${HOME}/go
 PACKAGENAME := $(shell go list -m -f '{{.Path}}')
