@@ -1,16 +1,17 @@
 <template>
+
   <div id="app" class="center">
-      <h1 class="title">{{ film.Title }}</h1>
-      <h2 class="genre">{{ film.Genre }}</h2>
-    <h2 class="rating">KP: {{ film.RatingKp[0] }} {{ film.RatingImdb[0] }}</h2>
+      <h1 class="title">{{ film.title }}</h1>
+      <h2 class="genre">{{ film.genre }}</h2>
+    <h2 class="rating">KP: {{ film.rating_kp[0] }} {{ film.rating_imdb[0] }}</h2>
       <div class="poster">
-        <img style="max-width: 500px; height: auto;" :src=film.PosterLink>
+        <img style="width: auto; max-height: 450px;" :src=film.poster_link>
       </div>
       <div class="country">
-        <h2 v-for="c in film.Country ">Страна: {{ c }} </h2>
+        <h2 v-for="c in film.country " :key="c">Страна: {{ c }} </h2>
       </div>
     <div class="kp_link">
-      <a target="_blank" rel="noopener noreferrer" :href=film.LinkToKP>
+      <a target="_blank" rel="noopener noreferrer" :href=film.link_to_kp>
         <button class="btn btn-warning btn-xs btn-lg">Go to Kinopoisk</button>
       </a>
 
@@ -32,21 +33,20 @@
         film: {}
       }
     },
-    created() {
-      axios.get("/random").then(r => {
+    created () {
+      axios.get('http://127.0.0.1:8081/random').then(r => {
         this.film = r.data
       })
     },
     methods: {
-      update() {
-        axios.get("/random").then(r => {
+      update () {
+        axios.get('http://127.0.0.1:8081/random').then(r => {
           this.film = r.data
         })
       }
     }
   }
 </script>
-
 
 <style>
 html body {
@@ -60,14 +60,9 @@ html body {
 .country>h2 { display: inline }
 
 .next {
-    margin-top: 40px;
+    margin-top: 10px;
 }
 div.kp_link, .country {
     margin-top: 20px;
 }
-
-
-
-
-
 </style>

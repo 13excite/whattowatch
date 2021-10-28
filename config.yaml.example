@@ -1,0 +1,21 @@
+---
+server_host: 127.0.0.1
+server_port: 8081
+log_level: info
+log_encoding: console
+logger_color: true
+logger_disable_stacktrace: true
+logger_dev_mode: true
+logger_disable_caller: false
+log_disabled_http:
+  - "/version"
+database:
+  username: "app_user"
+  password: "123456abc"
+  hostname: "127.0.0.1"
+  database: "kinopoisk"
+  port: 5432
+  max_connections: 20
+  log_queries: true
+  retries: 5
+  sleep_between_retries: "7s"
